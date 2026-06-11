@@ -52,8 +52,7 @@ Route::put('/cart/{id}', [CartController::class, 'updateQty']);
 
 Route::delete('/cart/{id}', [CartController::class, 'destroy']);
 
-Route::post('/orders', [OrderController::class, 'store'])
-    ->name('orders.store');
+Route::post('/orders', [OrderController::class, 'store']);
 
 Route::post('/register', [AuthController::class, 'registerApi']);
 
