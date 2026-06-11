@@ -28,28 +28,37 @@ class AppServiceProvider extends ServiceProvider
         });
 
 
-        // Only seed permissions during web requests, not during artisan commands (e.g. config:cache at build time)
         if (!$this->app->runningInConsole()) {
             $permissions = [
+
                 'add_categories',
+
+
                 'view_products',
                 'add_product',
                 'unapproved_products',
                 'inventory',
+
                 'view_orders',
                 'pending_orders',
                 'delivered_orders',
                 'cancelled_orders',
+
                 'view_users',
                 'view_agents',
                 'add_users',
+
                 'view_inquiries',
                 'view_reviews',
+
                 'settings',
                 'manage_roles',
+
                 'wishlist',
                 'track_order',
                 'my_orders',
+               
+
             ];
 
             foreach ($permissions as $perm) {
