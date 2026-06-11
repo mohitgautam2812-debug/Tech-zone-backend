@@ -26,9 +26,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-
-
 Route::get('/register', function () {
     return view('auth.register');
 });
@@ -234,7 +231,6 @@ Route::middleware(['auth'])->group(function () {
         ->name('my_orders')
         ->middleware('permission:my_orders');
 
-
 });
 
 
@@ -279,11 +275,8 @@ Route::get('/auto-login/{token}', function ($token) {
 Route::get('/footer-settings', [SettingController::class, 'index'])
     ->name('settings.index');
 
-
-Route::post(
-    '/settings',
-    [SettingController::class, 'store']
-)->name('settings.store');
+Route::post('/settings', [SettingController::class, 'store'])
+    ->name('settings.store');
 
 Route::get('/invoice/{id}', [OrderController::class, 'downloadInvoice'])
     ->name('invoice');
@@ -296,87 +289,47 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/pages/home', [PageController::class, 'home'])
         ->name('pages.home');
 
-    Route::match(
-        ['post', 'put'],
-        '/admin/home/hero/update',
-        [PageController::class, 'updateHero']
-    )->name('home.hero.update');
-    Route::match(
-        ['post', 'put'],
-        '/admin/home/badges/update',
-        [PageController::class, 'updateBadges']
-    )->name('home.badges.update');
+    Route::match(['post', 'put'], '/admin/home/hero/update', [PageController::class, 'updateHero'])
+        ->name('home.hero.update');
 
+    Route::match(['post', 'put'], '/admin/home/badges/update', [PageController::class, 'updateBadges'])
+        ->name('home.badges.update');
 
+    Route::get('/admin/categories/{id}/edit', [CategoryController::class, 'edit'])
+        ->name('admin.categories.edit');
 
-    Route::get(
-        '/admin/categories/{id}/edit',
-        [CategoryController::class, 'edit']
-    )->name('admin.categories.edit');
+    Route::match(['post', 'put'], '/admin/home/categories/update', [PageController::class, 'updateCategoriesSection'])
+        ->name('home.categories.update');
 
-    Route::match(
-        ['post', 'put'],
-        '/admin/home/categories/update',
-        [PageController::class, 'updateCategoriesSection']
-    )->name('home.categories.update');
-    Route::match(
-        ['post', 'put'],
-        '/admin/home/flash/update',
-        [PageController::class, 'updateFlash']
-    )->name('home.flash.update');
+    Route::match(['post', 'put'], '/admin/home/flash/update', [PageController::class, 'updateFlash'])
+        ->name('home.flash.update');
 
-    Route::match(
-        ['post', 'put'],
-        '/admin/home/aipicks/update',
-        [PageController::class, 'updateAiPicks']
-    )->name('home.aipicks.update');
+    Route::match(['post', 'put'], '/admin/home/aipicks/update', [PageController::class, 'updateAiPicks'])
+        ->name('home.aipicks.update');
 
-    Route::match(
-        ['post', 'put'],
-        '/admin/home/aifeatures/update',
-        [PageController::class, 'updateAiFeatures']
-    )->name('home.aifeatures.update');
+    Route::match(['post', 'put'], '/admin/home/aifeatures/update', [PageController::class, 'updateAiFeatures'])
+        ->name('home.aifeatures.update');
 
-    Route::get(
-        '/admin/reviews/{id}/edit',
-        [ReviewController::class, 'edit']
-    )->name('reviews.edit');
+    Route::get('/admin/reviews/{id}/edit', [ReviewController::class, 'edit'])
+        ->name('reviews.edit');
 
-    Route::match(
-        ['post', 'put'],
-        '/admin/home/reviews/update',
-        [PageController::class, 'updateReviews']
-    )->name('home.reviews.update');
-    Route::match(
-        ['post', 'put'],
-        '/admin/home/about/update',
-        [PageController::class, 'updateAbout']
-    )->name('home.about.update');
+    Route::match(['post', 'put'], '/admin/home/reviews/update', [PageController::class, 'updateReviews'])
+        ->name('home.reviews.update');
 
-    Route::match(
-        ['post', 'put'],
-        '/admin/home/how-it-works/update',
-        [PageController::class, 'updateHowItWorks']
-    )->name('home.hiw.update');
+    Route::match(['post', 'put'], '/admin/home/about/update', [PageController::class, 'updateAbout'])
+        ->name('home.about.update');
 
-    Route::match(
-        ['post', 'put'],
-        '/admin/home/newsletter/update',
-        [PageController::class, 'updateNewsletter']
-    )->name('home.newsletter.update');
+    Route::match(['post', 'put'], '/admin/home/how-it-works/update', [PageController::class, 'updateHowItWorks'])
+        ->name('home.hiw.update');
 
+    Route::match(['post', 'put'], '/admin/home/newsletter/update', [PageController::class, 'updateNewsletter'])
+        ->name('home.newsletter.update');
 
+    Route::delete('/admin/categories/{id}', [CategoryController::class, 'destroy'])
+        ->name('categories.destroy');
 
-    Route::delete(
-        '/admin/categories/{id}',
-        [CategoryController::class, 'destroy']
-    )->name('categories.destroy');
-
-    Route::delete(
-        '/admin/reviews/{id}',
-        [ReviewController::class, 'destroy']
-
-    )->name('reviews.destroy');
+    Route::delete('/admin/reviews/{id}', [ReviewController::class, 'destroy'])
+        ->name('reviews.destroy');
 
 });
 
@@ -402,135 +355,64 @@ Route::prefix('admin')
 
         Route::put('blogs/{id}', [BlogController::class, 'adminUpdate'])
             ->name('admin.blogs.update');
+
     });
 
 
-Route::post(
-    '/return-request',
-    [ReturnController::class, 'store']
-);
+// Returns & Refunds (admin)
+Route::post('/return-request', [ReturnController::class, 'store']);
 Route::get('/admin/returns', [ReturnController::class, 'index'])->name('returns.index');
 Route::put('/admin/returns/{id}', [ReturnController::class, 'update'])->name('returns.update');
-
 
 Route::get('/refunds', [RefundController::class, 'index'])->name('refunds.index');
 Route::post('/refunds', [RefundController::class, 'create'])->name('refunds.create');
 Route::put('/refunds/{id}', [RefundController::class, 'update'])->name('refunds.update');
 
 
-Route::get('/returns', [ReturnController::class, 'index'])->name('returns.index');
-Route::put('/returns/{id}', [ReturnController::class, 'update'])->name('returns.update');
-
-
-
-
-
 Route::middleware(['auth'])->group(function () {
 
-
-
-    Route::get(
-        '/contact-inquiries',
-        [InquiryContactController::class, 'index']
-    )
+    Route::get('/contact-inquiries', [InquiryContactController::class, 'index'])
         ->name('contact.inquiries')
         ->middleware('permission:view_contact_inquiries');
 
-    Route::post(
-        '/contact-inquiries',
-        [InquiryContactController::class, 'store']
-    )
+    Route::post('/contact-inquiries', [InquiryContactController::class, 'store'])
         ->name('contact.inquiries.store');
 
-    Route::put(
-        '/contact-inquiries/{id}/status',
-        [InquiryContactController::class, 'updateStatus']
-    );
+    Route::put('/contact-inquiries/{id}/status', [InquiryContactController::class, 'updateStatus']);
 
     Route::post('/contact-inquiries/{id}/reply', [InquiryContactController::class, 'reply']);
 
-    Route::delete(
-        '/contact-inquiries/{id}',
-        [InquiryContactController::class, 'destroy']
-    );
+    Route::delete('/contact-inquiries/{id}', [InquiryContactController::class, 'destroy']);
 
 });
-
-
-
-
-
-
-
-
-
-
 
 
 Route::get('/admin/pages/about', [AboutPageController::class, 'manage'])
     ->name('pages.about');
 
+Route::match(['post', 'put'], '/admin/about/hero/update', [AboutPageController::class, 'updateHero'])
+    ->name('about.hero.update');
 
+Route::match(['post', 'put'], '/admin/about/stats/update', [AboutPageController::class, 'updateStats'])
+    ->name('about.stats.update');
 
-Route::match(
-    ['post', 'put'],
-    '/admin/about/hero/update',
-    [AboutPageController::class, 'updateHero']
-)->name('about.hero.update');
+Route::match(['post', 'put'], '/admin/about/story/update', [AboutPageController::class, 'updateStory'])
+    ->name('about.story.update');
 
-Route::match(
-    ['post', 'put'],
-    '/admin/about/stats/update',
-    [AboutPageController::class, 'updateStats']
-)->name('about.stats.update');
+Route::match(['post', 'put'], '/admin/about/values/update', [AboutPageController::class, 'updateValues'])
+    ->name('about.values.update');
 
-Route::match(
-    ['post', 'put'],
-    '/admin/about/story/update',
-    [AboutPageController::class, 'updateStory']
-)->name('about.story.update');
+Route::match(['post', 'put'], '/admin/about/timeline/update', [AboutPageController::class, 'updateTimeline'])
+    ->name('about.timeline.update');
 
-Route::match(
-    ['post', 'put'],
-    '/admin/about/values/update',
-    [AboutPageController::class, 'updateValues']
-)->name('about.values.update');
+Route::match(['post', 'put'], '/admin/about/team/update', [AboutPageController::class, 'updateTeam'])
+    ->name('about.team.update');
 
-Route::match(
-    ['post', 'put'],
-    '/admin/about/timeline/update',
-    [AboutPageController::class, 'updateTimeline']
-)->name('about.timeline.update');
+Route::match(['post', 'put'], '/admin/about/awards/update', [AboutPageController::class, 'updateAwards'])
+    ->name('about.awards.update');
 
-Route::match(
-    ['post', 'put'],
-    '/admin/about/team/update',
-    [AboutPageController::class, 'updateTeam']
-)->name('about.team.update');
-
-Route::match(
-    ['post', 'put'],
-    '/admin/about/awards/update',
-    [AboutPageController::class, 'updateAwards']
-)->name('about.awards.update');
-
-Route::match(
-    ['post', 'put'],
-    '/admin/about/cta/update',
-    [AboutPageController::class, 'updateCta']
-)->name('about.cta.update');
-
-
-
-
-
-
-
-
-
-
-
-
+Route::match(['post', 'put'], '/admin/about/cta/update', [AboutPageController::class, 'updateCta'])
+    ->name('about.cta.update');
 
 
 require __DIR__ . '/auth.php';
