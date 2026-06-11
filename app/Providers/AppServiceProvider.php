@@ -19,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
             $userOnlyPermissions = ['wishlist', 'my_orders', 'my_profile', 'track_order'];
 
             if (in_array($ability, $userOnlyPermissions)) {
-                return null; // Admin ko bypass mat de
+                return null; 
             }
 
             if ($user->hasRole('admin')) {
