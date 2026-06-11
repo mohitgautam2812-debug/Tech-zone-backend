@@ -210,14 +210,9 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
-
-Route::middleware(['auth'])->group(function () {
-
-    Route::resource('categories', CategoryController::class)
-        ->middleware('permission:add_categories');
-
-});
-
+Route::resource('categories', CategoryController::class)
+    ->except(['edit'])
+    ->middleware('permission:add_categories');
 
 
 Route::middleware(['auth'])->group(function () {
@@ -317,7 +312,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get(
         '/admin/categories/{id}/edit',
         [CategoryController::class, 'edit']
-    )->name('categories.edit');
+    )->name('admin.categories.edit');
 
     Route::match(
         ['post', 'put'],
@@ -471,36 +466,60 @@ Route::middleware(['auth'])->group(function () {
 
 
 
- 
+
 Route::get('/admin/pages/about', [AboutPageController::class, 'manage'])
     ->name('pages.about');
- 
 
- 
-Route::match(['post', 'put'], '/admin/about/hero/update',
-    [AboutPageController::class, 'updateHero'])->name('about.hero.update');
- 
-Route::match(['post', 'put'], '/admin/about/stats/update',
-    [AboutPageController::class, 'updateStats'])->name('about.stats.update');
- 
-Route::match(['post', 'put'], '/admin/about/story/update',
-    [AboutPageController::class, 'updateStory'])->name('about.story.update');
- 
-Route::match(['post', 'put'], '/admin/about/values/update',
-    [AboutPageController::class, 'updateValues'])->name('about.values.update');
- 
-Route::match(['post', 'put'], '/admin/about/timeline/update',
-    [AboutPageController::class, 'updateTimeline'])->name('about.timeline.update');
- 
-Route::match(['post', 'put'], '/admin/about/team/update',
-    [AboutPageController::class, 'updateTeam'])->name('about.team.update');
- 
-Route::match(['post', 'put'], '/admin/about/awards/update',
-    [AboutPageController::class, 'updateAwards'])->name('about.awards.update');
- 
-Route::match(['post', 'put'], '/admin/about/cta/update',
-    [AboutPageController::class, 'updateCta'])->name('about.cta.update');
- 
+
+
+Route::match(
+    ['post', 'put'],
+    '/admin/about/hero/update',
+    [AboutPageController::class, 'updateHero']
+)->name('about.hero.update');
+
+Route::match(
+    ['post', 'put'],
+    '/admin/about/stats/update',
+    [AboutPageController::class, 'updateStats']
+)->name('about.stats.update');
+
+Route::match(
+    ['post', 'put'],
+    '/admin/about/story/update',
+    [AboutPageController::class, 'updateStory']
+)->name('about.story.update');
+
+Route::match(
+    ['post', 'put'],
+    '/admin/about/values/update',
+    [AboutPageController::class, 'updateValues']
+)->name('about.values.update');
+
+Route::match(
+    ['post', 'put'],
+    '/admin/about/timeline/update',
+    [AboutPageController::class, 'updateTimeline']
+)->name('about.timeline.update');
+
+Route::match(
+    ['post', 'put'],
+    '/admin/about/team/update',
+    [AboutPageController::class, 'updateTeam']
+)->name('about.team.update');
+
+Route::match(
+    ['post', 'put'],
+    '/admin/about/awards/update',
+    [AboutPageController::class, 'updateAwards']
+)->name('about.awards.update');
+
+Route::match(
+    ['post', 'put'],
+    '/admin/about/cta/update',
+    [AboutPageController::class, 'updateCta']
+)->name('about.cta.update');
+
 
 
 
