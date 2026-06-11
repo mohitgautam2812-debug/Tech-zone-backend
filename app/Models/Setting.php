@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Setting extends Model
+{
+    protected $fillable = [
+
+        'site_name',
+
+        'footer_description',
+
+        'facebook',
+
+        'twitter',
+
+        'instagram',
+
+        'youtube',
+
+        'address',
+
+        'phone',
+
+        'email',
+
+        'copyright',
+    ];
+}
