@@ -9,8 +9,9 @@ class Page extends Model
     protected $fillable = [
         'page_name',
         'slug',
-        'content'
+        'content',
     ];
+    // demo
 
     protected $casts = [
         'content' => 'array'
