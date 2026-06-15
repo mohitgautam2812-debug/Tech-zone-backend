@@ -426,7 +426,8 @@ class PageController extends Controller
     public function homeApi()
     {
         try {
-            $page = Page::where('slug', 'home')->first();
+           
+            $page = \App\Models\Page::where('slug', 'home')->first();
 
             $categories = Category::latest()->get()->map(function ($cat) {
                 $cat->image_url = $cat->image
