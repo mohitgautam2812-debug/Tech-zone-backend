@@ -423,29 +423,24 @@ class PageController extends Controller
     }
 
 
-    public function homeApi()
-    {
-        try {
-            $page = Page::where('slug', 'home')->first();
-            $categories = Category::latest()->get();
-            $reviews = Review::with('user')->latest()->take(10)->get();
-            $flashProducts = Product::latest()->take(2)->get();
+  public function homeApi()
+{
+    try {
+        // STEP 1: Pehle sirf yeh lagao
+        $page = Page::where('slug', 'home')->first();
+        
+        return response()->json([
+            'success' => true,
+            'step' => 'page ok',
+            'data' => $page->content ?? [],
+        ]);
 
-            return response()->json([
-                'success' => true,
-                'data' => $page->content ?? [],
-                'categories' => $categories,
-                'reviews' => $reviews,
-                'flashProducts' => $flashProducts
-            ]);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-                'line' => $e->getLine(),
-                'file' => $e->getFile(),
-            ], 500);
-        }
+    } catch (\Exception $e) {
+        return response()->json([
+            'error' => $e->getMessage(),
+            'line' => $e->getLine(),
+        ], 500);
     }
+}
 }
 
