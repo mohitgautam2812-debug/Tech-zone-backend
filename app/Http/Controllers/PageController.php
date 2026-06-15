@@ -424,33 +424,8 @@ class PageController extends Controller
 
 public function homeApi()
 {
-    $page = Page::where('slug', 'home')->first();
-
-    $categories = Category::latest()
-        ->get()
-        ->map(function ($cat) {
-            $cat->image_url = $cat->image
-                ? asset('storage/' . $cat->image)
-                : null;
-
-            return $cat;
-        });
-
-    $reviews = Review::with('user')
-        ->latest()
-        ->take(10)
-        ->get();
-
-    $flashProducts = Product::latest()
-        ->take(2)
-        ->get();
-
     return response()->json([
-        'success' => true,
-        'data' => $page?->content ?? [],
-        'categories' => $categories,
-        'reviews' => $reviews,
-        'flashProducts' => $flashProducts,
+        "message" => "API Working"
     ]);
 }
 }
