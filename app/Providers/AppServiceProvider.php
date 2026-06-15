@@ -19,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
             $userOnlyPermissions = ['wishlist', 'my_orders', 'my_profile', 'track_order'];
 
             if (in_array($ability, $userOnlyPermissions)) {
-                return null; 
+                return null;
             }
 
             if ($user->hasRole('admin')) {
@@ -27,33 +27,42 @@ class AppServiceProvider extends ServiceProvider
             }
         });
 
-
-        // Only seed permissions during web requests, not during artisan commands (e.g. config:cache at build time)
         if (!$this->app->runningInConsole()) {
-            $permissions = [
-                'add_categories',
-                'view_products',
-                'add_product',
-                'unapproved_products',
-                'inventory',
-                'view_orders',
-                'pending_orders',
-                'delivered_orders',
-                'cancelled_orders',
-                'view_users',
-                'view_agents',
-                'add_users',
-                'view_inquiries',
-                'view_reviews',
-                'settings',
-                'manage_roles',
-                'wishlist',
-                'track_order',
-                'my_orders',
-            ];
+            try {
+                $alreadySeeded = \Cache::remember('permissions_seeded', 60 * 24, function () {
+                    return \DB::table('permissions')->count() > 0;
+                });
 
-            foreach ($permissions as $perm) {
-                Permission::firstOrCreate(['name' => $perm]);
+                if (!$alreadySeeded) {
+                    $permissions = [
+                        'add_categories',
+                        'view_products',
+                        'add_product',
+                        'unapproved_products',
+                        'inventory',
+                        'view_orders',
+                        'pending_orders',
+                        'delivered_orders',
+                        'cancelled_orders',
+                        'view_users',
+                        'view_agents',
+                        'add_users',
+                        'view_inquiries',
+                        'view_reviews',
+                        'settings',
+                        'manage_roles',
+                        'wishlist',
+                        'track_order',
+                        'my_orders',
+                    ];
+
+                    foreach ($permissions as $perm) {
+                        Permission::firstOrCreate(['name' => $perm]);
+                    }
+                }
+            } catch (\Exception $e) {
+                \Log::error('Permission seeding failed: ' . $e->getMessage());
+
             }
         }
     }
