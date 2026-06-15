@@ -68,7 +68,7 @@ class Product extends Model
     public function getImageUrlAttribute()
     {
         return $this->image
-            ? env('APP_URL') . '/storage/' . $this->image
+            ? config('app.url') . '/storage/' . $this->image
             : null;
     }
 
