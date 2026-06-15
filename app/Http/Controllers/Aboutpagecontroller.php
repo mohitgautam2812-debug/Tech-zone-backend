@@ -50,7 +50,7 @@ class AboutPageController extends Controller
     }
 
 
-    public function show() 
+    public function show()
     {
         $page = $this->getPage();
         $pageData = $page->content ?? [];
@@ -58,9 +58,9 @@ class AboutPageController extends Controller
         return view('about', compact('pageData'));
     }
 
-       public function aboutApi()
+    public function aboutApi()
     {
-        $page = Page::where('slug', 'about')->first();
+        $page = \App\Models\Page::where('slug', 'home')->first();
 
         return response()->json([
             'success' => true,
@@ -96,7 +96,7 @@ class AboutPageController extends Controller
         return redirect()->back()->with('success', 'Hero section saved successfully.');
     }
 
-    
+
     public function updateStats(Request $request)
     {
         $stats = [];
@@ -113,7 +113,7 @@ class AboutPageController extends Controller
         return redirect()->back()->with('success', 'Stats bar saved successfully.');
     }
 
-   
+
     public function updateStory(Request $request)
     {
         $request->validate([
@@ -149,7 +149,7 @@ class AboutPageController extends Controller
         return redirect()->back()->with('success', 'Our Story section saved successfully.');
     }
 
- 
+
     public function updateValues(Request $request)
     {
         $request->validate([
@@ -158,7 +158,7 @@ class AboutPageController extends Controller
             'values_description' => 'nullable|string|max:400',
         ]);
 
-        
+
         $cards = [];
         for ($i = 1; $i <= 6; $i++) {
             if ($request->input("value_{$i}_title")) {
@@ -180,7 +180,7 @@ class AboutPageController extends Controller
         return redirect()->back()->with('success', 'Core Values section saved successfully.');
     }
 
-  
+
     public function updateTimeline(Request $request)
     {
         $request->validate([
@@ -188,7 +188,7 @@ class AboutPageController extends Controller
             'timeline_heading' => 'nullable|string|max:200',
         ]);
 
-        
+
         $milestones = [];
         for ($i = 1; $i <= 6; $i++) {
             if ($request->input("milestone_{$i}_year")) {
@@ -209,7 +209,7 @@ class AboutPageController extends Controller
         return redirect()->back()->with('success', 'Timeline section saved successfully.');
     }
 
-    
+
     public function updateTeam(Request $request)
     {
         $request->validate([
@@ -218,7 +218,7 @@ class AboutPageController extends Controller
             'team_description' => 'nullable|string|max:400',
         ]);
 
-        
+
         $members = [];
         for ($i = 1; $i <= 6; $i++) {
             if ($request->input("member_{$i}_name")) {
@@ -242,7 +242,7 @@ class AboutPageController extends Controller
         return redirect()->back()->with('success', 'Team section saved successfully.');
     }
 
-  
+
     public function updateAwards(Request $request)
     {
         $request->validate([
@@ -270,7 +270,7 @@ class AboutPageController extends Controller
         return redirect()->back()->with('success', 'Awards section saved successfully.');
     }
 
-   
+
     public function updateCta(Request $request)
     {
         $request->validate([
