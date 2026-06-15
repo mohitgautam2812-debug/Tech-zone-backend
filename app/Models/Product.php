@@ -63,4 +63,13 @@ class Product extends Model
         return $this->hasMany(ProductImage::class);
     }
 
+    protected $appends = ['image_url'];
+
+    public function getImageUrlAttribute()
+    {
+        return $this->image
+            ? env('APP_URL') . '/storage/' . $this->image
+            : null;
+    }
+
 }
