@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Page;
-use App\Models\category;
+use App\Models\Category;
 use App\Models\Review;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -125,7 +125,7 @@ class PageController extends Controller
         $page = $this->getPage();
         $pageData = $page->content ?? [];
 
-        $categories = category::withCount('products')->get();
+        $categories = Category::withCount('products')->get();
         $reviews = Review::latest()->get();
         $aiFeatures = [];
         $steps = [];
@@ -426,31 +426,30 @@ public function homeApi()
 {
     $page = Page::where('slug', 'home')->first();
 
-    $categories = category::latest()
-        ->get()
-        ->map(function ($cat) {
-            $cat->image_url = $cat->image
-                ? asset('storage/' . $cat->image)
-                : null;
+    // $categories = Category::latest()
+    //     ->get()
+    //     ->map(function ($cat) {
+    //         $cat->image_url = $cat->image
+    //             ? asset('storage/' . $cat->image)
+    //             : null;
+    //         return $cat;
+    //     });
 
-            return $cat;
-        });
+    // $reviews = Review::with('user')
+    //     ->latest()
+    //     ->take(10)
+    //     ->get();
 
-    $reviews = Review::with('user')
-        ->latest()
-        ->take(10)
-        ->get();
-
-    $flashProducts = Product::latest()
-        ->take(2)
-        ->get();
+    // $flashProducts = Product::latest()
+    //     ->take(2)
+    //     ->get();
 
     return response()->json([
         'success' => true,
         'data' => $page?->content ?? [],
-        'categories' => $categories,
-        'reviews' => $reviews,
-        'flashProducts' => $flashProducts,
+        // 'categories' => $categories,
+        // 'reviews' => $reviews,
+        // 'flashProducts' => $flashProducts,
     ]);
 }
 }
