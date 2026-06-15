@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Page;
-use App\Models\category;
+use App\Models\Category;
 use App\Models\Review;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -423,34 +423,28 @@ class PageController extends Controller
     }
 
 
-    public function homeApi()
-    {
-        $page = Page::where('slug', 'home')->first();
+  public function homeApi()
+{
+    $page = Page::where('slug', 'home')->first();
 
-        $categories = Category::latest()->get();
+    $categories = Category::latest()->get(); 
 
-        $reviews = Review::with('user')
-            ->latest()
-            ->take(10)
-            ->get();
+    $reviews = Review::with('user')
+        ->latest()
+        ->take(10)
+        ->get();
 
-        $flashProducts = Product::latest()
-            ->take(2)
-            ->get();
+    $flashProducts = Product::latest()
+        ->take(2)
+        ->get();
 
-        return response()->json([
-
-            'success' => true,
-
-            'data' => $page->content ?? [],
-
-            'categories' => $categories,
-
-            'reviews' => $reviews,
-
-            'flashProducts' => $flashProducts
-
-        ]);
-    }
+    return response()->json([
+        'success' => true,
+        'data' => $page->content ?? [],
+        'categories' => $categories,
+        'reviews' => $reviews,
+        'flashProducts' => $flashProducts
+    ]);
+}
 }
 
