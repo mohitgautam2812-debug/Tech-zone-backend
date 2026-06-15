@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Page;
 use App\Models\Category;
 use App\Models\Review;
-use App\Models\Product;
+
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -423,24 +423,32 @@ class PageController extends Controller
     }
 
 
-  public function homeApi()
-{
-    try {
-        // STEP 1: Pehle sirf yeh lagao
+    public function homeApi()
+    {
         $page = Page::where('slug', 'home')->first();
-        
-        return response()->json([
-            'success' => true,
-            'step' => 'page ok',
-            'data' => $page->content ?? [],
-        ]);
 
-    } catch (\Exception $e) {
+        $categories = Category::latest()->get();
+
+        $reviews = Review::with('user')
+            ->latest()
+            ->take(10)
+            ->get();
+
+       
+
         return response()->json([
-            'error' => $e->getMessage(),
-            'line' => $e->getLine(),
-        ], 500);
+
+            'success' => true,
+
+            'data' => $page->content ?? [],
+
+            'categories' => $categories,
+
+            'reviews' => $reviews,
+
+           
+
+        ]);
     }
-}
 }
 
