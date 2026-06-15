@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Page;
 use App\Models\Category;
 use App\Models\Review;
-
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -426,7 +426,7 @@ class PageController extends Controller
     public function homeApi()
     {
         try {
-           
+
             $page = \App\Models\Page::where('slug', 'home')->first();
 
             $categories = Category::latest()->get()->map(function ($cat) {
@@ -440,12 +440,20 @@ class PageController extends Controller
                 ->latest()
                 ->take(10)
                 ->get();
+            $flashProducts = Product::where('status', 'approved')
+                ->whereNotNull('discount_price')
+                ->where('discount_price', '>', 0)
+                ->latest()
+                ->take(6)
+                ->get();
+
 
             return response()->json([
                 'success' => true,
                 'data' => $page->content ?? [],
                 'categories' => $categories,
                 'reviews' => $reviews,
+                'flashProducts' => $flashProducts,
             ]);
 
         } catch (\Throwable $e) {
