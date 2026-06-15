@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::table('contact_inquiries', function ($table) {
             $table->text('reply')->nullable();
-        });
+        }); 
     }
 
     /**
