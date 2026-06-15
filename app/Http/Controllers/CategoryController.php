@@ -12,7 +12,7 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $categories = category::latest()->get();
+        $categories = Category::latest()->get();
 
         return view('createCategories', compact('categories'));
     }
@@ -50,9 +50,9 @@ class CategoryController extends Controller
 
     public function edit($id)
     {
-        $categories = category::latest()->get();
+        $categories = Category::latest()->get();
 
-        $editCategory = category::findOrFail($id);
+        $editCategory = Category::findOrFail($id);
 
         return view('viewCategories', compact(
             'categories',
